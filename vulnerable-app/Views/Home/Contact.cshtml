@@ -1,0 +1,36 @@
+@{
+    ViewData["Title"] = "Contact Us";
+}
+
+<h1>Contact Us</h1>
+
+<!-- Vulnerability: Missing CSRF protection, accepting unfiltered user input -->
+<form method="post">
+    <div class="form-group">
+        <label for="name">Your Name:</label>
+        <input type="text" id="name" name="name" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="email">Your Email:</label>
+        <input type="email" id="email" name="email" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" class="form-control" rows="5" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Send Message</button>
+</form>
+
+<div class="vulnerability-demo mt-4">
+    <h4>Previous Messages</h4>
+    <div id="previous-messages" class="xss-container">
+        @if (ViewBag.PreviousMessage != null)
+        {
+            @Html.Raw(ViewBag.PreviousMessage)
+        }
+        else
+        {
+            <p>No previous messages.</p>
+        }
+    </div>
+</div>

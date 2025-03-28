@@ -1,0 +1,17 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+
+<!-- Vulnerability: Weak client-side validation that can be easily bypassed -->
+<script>
+    $(document).ready(function() {
+        // Override validation to make it less secure
+        $.validator.methods.email = function(value, element) {
+            return this.optional(element) || value.includes('@@');
+        };
+        
+        // Deliberately weak password validation
+        $.validator.addMethod("passwordComplexity", function(value, element) {
+            return value.length >= 6;
+        }, "Password must be at least 6 characters long.");
+    });
+</script>

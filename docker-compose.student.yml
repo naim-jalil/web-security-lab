@@ -1,0 +1,11 @@
+services:
+  web-security-lab:
+    ports:
+      - "8080:80"
+      - "8443:443"
+    volumes:
+      - ./exercises:/exercises:ro  # Read-only exercises
+      - ./student-work:/student-work
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - StudentMode=true

@@ -1,0 +1,65 @@
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<h1>Admin Dashboard</h1>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-warning">
+        @ViewBag.Message
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="admin-panel">
+            <h3>User Management</h3>
+            <p>Total Users: @ViewBag.UserCount</p>
+            <a href="/Admin/Users" class="btn btn-primary">Manage Users</a>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="admin-panel">
+            <h3>Product Management</h3>
+            <p>Total Products: @ViewBag.ProductCount</p>
+            <a href="/Products/Admin" class="btn btn-primary">Manage Products</a>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="admin-panel">
+            <h3>Orders</h3>
+            <p>Total Orders: @ViewBag.OrderCount</p>
+            <a href="#" class="btn btn-primary">View Orders</a>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="admin-panel">
+            <h3>System Tools</h3>
+            <a href="/Admin/RunCommand" class="btn btn-danger mb-2">Run Command</a>
+            <a href="/Admin/Configuration" class="btn btn-info mb-2">View Configuration</a>
+            <form method="post" action="/Admin/ExportUsers">
+                <div class="input-group mt-3">
+                    <select name="format" class="form-control">
+                        <option value="csv">CSV</option>
+                    </select>
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-secondary">Export Users</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="admin-panel">
+            <h3>Server Information</h3>
+            <p><strong>Server Time:</strong> @DateTime.Now</p>
+            <p><strong>Server Status:</strong> Online</p>
+            <!-- Vulnerability: Information disclosure -->
+            <p><strong>Server Address:</strong> @System.Net.Dns.GetHostAddresses(System.Net.Dns.GetHostName())[0]</p>
+        </div>
+    </div>
+</div>

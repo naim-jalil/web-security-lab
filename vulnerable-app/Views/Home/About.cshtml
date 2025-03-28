@@ -1,0 +1,22 @@
+@{
+    ViewData["Title"] = "About Us";
+}
+
+<h1>About Us</h1>
+
+@if (ViewBag.Name != null)
+{
+    <div>
+        <h3>Welcome, @Html.Raw(ViewBag.Name)!</h3>
+    </div>
+}
+
+<p>This is a sample vulnerable application for teaching web security.</p>
+
+<form method="get">
+    <div class="form-group">
+        <label for="name">Enter your name:</label>
+        <input type="text" id="name" name="name" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

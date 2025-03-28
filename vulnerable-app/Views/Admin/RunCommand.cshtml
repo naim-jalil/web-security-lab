@@ -1,0 +1,38 @@
+@{
+    ViewData["Title"] = "Run Command";
+}
+
+<h1>Run System Command</h1>
+
+<div class="alert alert-danger">
+    <strong>Warning:</strong> This page allows execution of system commands. Use with caution.
+</div>
+
+<!-- Vulnerability: Command injection -->
+<form method="get" id="command-form">
+    <div class="form-group">
+        <label for="command">Command to execute:</label>
+        <input type="text" id="command" name="command" class="form-control" placeholder="Enter a system command..." />
+    </div>
+    <button type="submit" class="btn btn-danger">Execute</button>
+</form>
+
+@if (ViewBag.Output != null)
+{
+    <h3 class="mt-4">Command Output:</h3>
+    <div class="command-output">
+        <pre>@ViewBag.Output</pre>
+    </div>
+}
+
+@if (ViewBag.Error != null)
+{
+    <h3 class="mt-4">Error:</h3>
+    <div class="alert alert-danger">
+        <pre>@ViewBag.Error</pre>
+    </div>
+}
+
+<div class="mt-3">
+    <a href="/Admin/Dashboard" class="btn btn-secondary">Back to Dashboard</a>
+</div>

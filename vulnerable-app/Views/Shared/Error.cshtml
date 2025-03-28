@@ -1,0 +1,32 @@
+@model ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<h1 class="text-danger">Error.</h1>
+<h2 class="text-danger">An error occurred while processing your request.</h2>
+
+<!-- Vulnerability: Information disclosure -->
+@if (Model.ShowRequestId)
+{
+    <p>
+        <strong>Request ID:</strong> @Model.RequestId
+    </p>
+    
+    @if (!string.IsNullOrEmpty(Model.StackTrace))
+    {
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                Stack Trace
+            </div>
+            <div class="card-body">
+                <pre>@Model.StackTrace</pre>
+            </div>
+        </div>
+    }
+    
+    @if (!string.IsNullOrEmpty(Model.ErrorSource))
+    {
+        <p><strong>Source:</strong> @Model.ErrorSource</p>
+    }
+}

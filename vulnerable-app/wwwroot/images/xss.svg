@@ -1,0 +1,6 @@
+<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="300" fill="#FFE0E0"/>
+  <text x="40" y="150" font-family="monospace" font-size="40" fill="red">&lt;script&gt;</text>
+  <text x="60" y="190" font-family="monospace" font-size="30" fill="red">alert()</text>
+  <text x="40" y="230" font-family="monospace" font-size="40" fill="red">&lt;/script&gt;</text>
+</svg>

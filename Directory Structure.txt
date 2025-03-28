@@ -1,0 +1,96 @@
+/web-security-lab/
+├── docker-compose.yml                # Enhanced version
+├── docker-compose.override.yml       # Optional
+├── docker-compose.student.yml        # Optional
+├── Dockerfile                        # Enhanced version
+├── setup-day1.sh
+├── setup-day2.sh
+├── setup-day3.sh
+├── setup-day4.sh
+├── setup-day5.sh
+├── setup-day6.sh
+├── reset-all.sh
+├── vulnerable-app/                   # Contains the ASP.NET application
+│   ├── VulnerableApp.csproj          # Project file
+│   ├── Program.cs                    # Main entry point with vulnerabilities
+│   ├── Startup.cs                    # If needed
+│   ├── Data
+│   │   └── ApplicationDbContext.cs
+│   ├── Controllers/                  # Controller classes
+│   │   ├── AccountController.cs  
+│   │   ├── AdminController.cs  
+│   │   ├── HomeController.cs  
+│   │   ├── ProductsController.cs  
+│   │   └── UserDataController.cs
+│   ├── Models/                       # Data models
+│   │   ├── ErrorViewModel.cs  
+│   │   ├── Message.cs  
+│   │   ├── Order.cs  
+│   │   ├── Product.cs  
+│   │   └── User.cs
+│   ├── Views/                        # View templates
+│   │   ├── Account/ 
+│   │   │   ├──Register.cshtml
+│   │   │   ├──Profile.cshtml
+│   │   │   └──Login.cshtml
+│   │   ├── Admin/
+│   │   │   ├──Dashboard.cshtml
+│   │   │   ├──Users.cshtml
+│   │   │   ├──RunCommand.cshtml
+│   │   │   └──Configuration.cshtml 
+│   │   ├── Home/
+│   │   │   ├──Index.cshtml
+│   │   │   ├──Contact.cshtml
+│   │   │   ├──ContactSucccess.cshtml
+│   │   │   └──About.cshtml 
+│   │   ├── Products/ 
+│   │   │   ├──Details.cshtml
+│   │   │   ├──Admin.cshtml
+│   │   │   ├──Edit.cshtml
+│   │   │   ├──Delete.cshtml
+│   │   │   └──Index.cshtml
+│   │   └── Shared/
+│   │       ├──Error.cshtml
+│   │       ├──_ValidationScriptsPartial.cshtml
+│   │       └──_Layout.cshtml
+│   ├── Services/                     # Service classes
+│   │   ├──InsecureAuthService.cs  
+│   │   └──InsecureLoggingService.cs
+│   ├── wwwroot/
+│   │   │css/
+│   │   │   └──site.css
+│   │   └──images/
+│   │       ├──book.svg  
+│   │       ├──camera.svg  
+│   │       ├──laptop.svg  
+│   │       ├──smartphone.svg  
+│   │       └──xss.svg
+│   ├──js/
+│   │   └──site.js
+├── exercises/                        # Exercise materials by day
+│   ├── day1/
+│   │   │  ├──owasp-top10-identification.html
+│   │   │  └──security-headers-analysis.html
+│   ├── day2/
+│   │   │  ├──command-injection-lab.html
+│   │   │  ├──sql-injection-lab.html
+│   ├── day3/
+│   │   │  ├──authorization-lab.html
+│	│	│  └──authentication-vulnerabilities.html
+│   ├── day4/
+│   │   │  	├──security-headers-lab.html
+│   │   │ 	└──aspnet-security-lab.html
+│   ├── day5/
+│   │   │   ├──security-testing-lab.html
+│	│	│	├──csrf-prevention-lab.html
+│   │	│	└──XSS-prevention-lab.html
+│   ├── day6/
+│	│		├──security-hardening-lab.html
+│   │		├──secure-sdlc-lab.html
+│   │		└──final-assessment.html
+├── database/
+│   └── init-scripts/
+│       ├── init.sql                  # Initial database setup
+│       └── final-day-data.sql        # Comprehensive data for Day 6
+├── student-work/                     # For students to save their work
+└── security-reports/                 # For security tool outputs

@@ -1,0 +1,98 @@
+/* Basic site styles for the vulnerable web application */
+
+/* General styling */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px; /* For footer spacing */
+}
+
+/* Header styles */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+/* Footer styles */
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    background-color: #f5f5f5;
+}
+
+/* Card styling for products */
+.card {
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+/* Forms */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+/* Admin dashboard panels */
+.admin-panel {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.admin-panel h3 {
+    margin-top: 0;
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+/* Vulnerability demo styling */
+.vulnerability-demo {
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.vulnerability-demo h4 {
+    color: #856404;
+}
+
+/* Command output display */
+.command-output {
+    background-color: #222;
+    color: #33ff00;
+    font-family: monospace;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    margin-top: 10px;
+}
+
+/* XSS demo container */
+.xss-container {
+    border: 2px dashed #dc3545;
+    padding: 15px;
+    margin: 20px 0;
+    background-color: #f8f9fa;
+}

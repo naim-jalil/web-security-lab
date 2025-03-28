@@ -1,0 +1,33 @@
+@model Dictionary<string, string>
+@{
+    ViewData["Title"] = "System Configuration";
+}
+
+<h1>System Configuration</h1>
+
+<div class="alert alert-info">
+    <strong>Note:</strong> This page displays sensitive system configuration information.
+</div>
+
+<!-- Vulnerability: Information disclosure -->
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Configuration Key</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Key</td>
+                <td>@item.Value</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="mt-3">
+    <a href="/Admin/Dashboard" class="btn btn-secondary">Back to Dashboard</a>
+</div>
