@@ -2120,19 +2120,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\lj.khoo\\.nuget\\packages\\": {}
+    "/home/ljkhoo/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\lj.khoo\\Downloads\\web-security-lab\\web-security-lab\\vulnerable-app\\VulnerableApp.csproj",
+      "projectUniqueName": "/home/ljkhoo/web-security-lab/vulnerable-app/VulnerableApp.csproj",
       "projectName": "VulnerableApp",
-      "projectPath": "C:\\Users\\lj.khoo\\Downloads\\web-security-lab\\web-security-lab\\vulnerable-app\\VulnerableApp.csproj",
-      "packagesPath": "C:\\Users\\lj.khoo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\lj.khoo\\Downloads\\web-security-lab\\web-security-lab\\vulnerable-app\\obj\\",
+      "projectPath": "/home/ljkhoo/web-security-lab/vulnerable-app/VulnerableApp.csproj",
+      "packagesPath": "/home/ljkhoo/.nuget/packages/",
+      "outputPath": "/home/ljkhoo/web-security-lab/vulnerable-app/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\lj.khoo\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/home/ljkhoo/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
@@ -2192,15 +2192,11 @@
             "version": "[6.0.36, 6.0.36]"
           },
           {
-            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "name": "Microsoft.NETCore.App.Host.linux-x64",
             "version": "[6.0.36, 6.0.36]"
           },
           {
             "name": "Microsoft.NETCore.App.Ref",
-            "version": "[6.0.36, 6.0.36]"
-          },
-          {
-            "name": "Microsoft.WindowsDesktop.App.Ref",
             "version": "[6.0.36, 6.0.36]"
           }
         ],
@@ -2212,7 +2208,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.202/RuntimeIdentifierGraph.json"
       }
     }
   },
