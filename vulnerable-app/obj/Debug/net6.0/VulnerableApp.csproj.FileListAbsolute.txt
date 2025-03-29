@@ -1,0 +1,9 @@
+/home/ljkhoo/web-security-lab/vulnerable-app/obj/Debug/net6.0/VulnerableApp.csproj.AssemblyReference.cache
+/home/ljkhoo/web-security-lab/vulnerable-app/obj/Debug/net6.0/VulnerableApp.GeneratedMSBuildEditorConfig.editorconfig
+/home/ljkhoo/web-security-lab/vulnerable-app/obj/Debug/net6.0/VulnerableApp.AssemblyInfoInputs.cache
+/home/ljkhoo/web-security-lab/vulnerable-app/obj/Debug/net6.0/VulnerableApp.AssemblyInfo.cs
+/home/ljkhoo/web-security-lab/vulnerable-app/obj/Debug/net6.0/VulnerableApp.csproj.CoreCompileInputs.cache
+/home/ljkhoo/web-security-lab/vulnerable-app/obj/Debug/net6.0/VulnerableApp.MvcApplicationPartsAssemblyInfo.cache
+/home/ljkhoo/web-security-lab/vulnerable-app/obj/Debug/net6.0/VulnerableApp.RazorAssemblyInfo.cache
+/home/ljkhoo/web-security-lab/vulnerable-app/obj/Debug/net6.0/VulnerableApp.RazorAssemblyInfo.cs
+/home/ljkhoo/web-security-lab/vulnerable-app/obj/Debug/net6.0/VulnerableApp.sourcelink.json
