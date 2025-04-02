@@ -9,13 +9,9 @@ docker volume rm web-security-lab_security-reports || true
 # Start with fresh setup
 docker compose up -d db
 
-# Wait for database to be ready
-echo "Waiting for database to initialize..."
-sleep 15
-
-# Explicitly run the initialization script
-echo "Initializing database..."
-docker exec -i web-security-lab-db /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P P@ssw0rd! -E -i docker-entrypoint-initdb.d/init.sql
+# Initialize the database using our script
+echo "Running database initialization script..."
+./init-database.sh
 
 # Start the web application with basic vulnerabilities
 docker compose up -d web-security-lab
