@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Security Headers Implementation Lab</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; }
+        .exercise { margin-bottom: 30px; padding: 15px; border: 1px solid #ddd; }
+        .code { background-color: #f5f5f5; padding: 10px; font-family: monospace; }
+        .hint { color: #666; font-style: italic; }
+    </style>
+</head>
+<body>
+    <h1>Security Headers Implementation Lab</h1>
+    
+    <div class="exercise">
+        <h2>Exercise 1: Implementing Content Security Policy</h2>
+        <p>Create a Content Security Policy for the application:</p>
+        <div class="code">
+            // Current CSP implementation (intentionally vulnerable)
+            app.Use(async (context, next) => {
+                // Deliberately weak CSP that allows unsafe practices
+                context.Response.Headers.Add("Content-Security-Policy", 
+                    "default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data:; " +
+                    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; " +
+                    "style-src 'self' 'unsafe-inline' https:;");
+                
+                await next();
+            });
+        </div>
+        
+        <p>Tasks:</p>
+        <ol>
+            <li>Identify the issues with the current CSP</li>
+            <li>Write a more secure CSP that still allows the application to function</li>
+            <li>Test your CSP using browser developer tools</li>
+            <li>Verify that your CSP blocks XSS attacks</li>
+        </ol>
+        
+        <p class="hint">Hint: Start with a restrictive policy and then add only what's needed. Remove 'unsafe-inline' and 'unsafe-eval' whenever possible.</p>
+    </div>
+    
+    <div class="exercise">
+        <h2>Exercise 2: Adding Essential Security Headers</h2>
+        <p>Implement additional security headers:</p>
+        <div class="code">
+            // Add your implementation for these security headers:
+            // 1. X-Frame-Options
+            // 2. X-Content-Type-Options
+            // 3. Referrer-Policy
+            // 4. X-XSS-Protection
+            // 5. Permissions-Policy
+        </div>
+        
+        <p>Tasks:</p>
+        <ol>
+            <li>Add the five security headers listed above</li>
+            <li>Explain the purpose of each header</li>
+            <li>Test your headers using a security header checking tool</li>
+        </ol>
+        
+        <p class="hint">Hint: You can use SecurityHeadersMiddleware or implement custom middleware</p>
+    </div>
+    
+    <div class="exercise">
+        <h2>Exercise 3: Implementing HSTS</h2>
+        <p>Implement HTTP Strict Transport Security:</p>
+        <div class="code">
+            // Add your HSTS implementation here
+        </div>
+        
+        <p>Tasks:</p>
+        <ol>
+            <li>Implement HSTS with appropriate settings</li>
+            <li>Test your HSTS configuration</li>
+            <li>Explain the following parameters and their security implications:
+                <ul>
+                    <li>max-age</li>
+                    <li>includeSubDomains</li>
+                    <li>preload</li>
+                </ul>
+            </li>
+        </ol>
+        
+        <p class="hint">Hint: Be careful with max-age values in production to avoid locking out users</p>
+    </div>
+</body>
+</html>
