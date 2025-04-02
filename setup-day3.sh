@@ -15,7 +15,7 @@ sleep 10
 docker-compose up -d web-security-lab
 
 # Add users with weak passwords for authentication exercises
-docker exec -i web-security-lab_db_1 /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P P@ssw0rd! -d VulnerableApp -Q "
+docker exec -i web-security-lab-db /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P P@ssw0rd! -d VulnerableApp -Q -E"
 -- Add users with weak passwords
 IF NOT EXISTS (SELECT * FROM Users WHERE Username = 'weakuser')
 BEGIN

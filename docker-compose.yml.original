@@ -1,0 +1,72 @@
+services:
+  web-security-lab:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+      - "8443:443"
+    volumes:
+      - ./vulnerable-app:/app
+      - ./exercises:/exercises
+      - ./student-work:/student-work  # Persistent storage for student work
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=db;Database=VulnerableApp;User=sa;Password=P@ssw0rd!;TrustServerCertificate=True
+    depends_on:
+      - db
+    networks:
+      - web-security-network
+  
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=P@ssw0rd!
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqldata:/var/opt/mssql
+      - ./database/init-scripts:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P P@ssw0rd! -Q 'SELECT 1' || exit 1"]
+      interval: 30s
+      retries: 10
+      timeout: 5s
+      start_period: 60s
+    networks:
+      - web-security-network
+
+  # Security testing tools for Day 5
+  security-tools:
+    image: ghcr.io/zaproxy/zaproxy:stable
+    volumes:
+      - ./security-reports:/zap/wrk
+    ports:
+      - "8090:8080"  # ZAP API and UI
+    command: zap.sh -daemon -host 0.0.0.0 -port 8080 -config api.disablekey=true
+    networks:
+      - web-security-network
+    depends_on:
+      - web-security-lab
+
+  # Web Application Firewall for Day 5
+  waf:
+    image: owasp/modsecurity-crs:4.12.0-nginx-alpine-202503230103
+    ports:
+      - "8081:80"
+    environment:
+      - PARANOIA=1  # Start with low paranoia level for demonstration
+      - PROXY=1
+      - BACKEND=http://web-security-lab
+    networks:
+      - web-security-network
+    depends_on:
+      - web-security-lab
+
+networks:
+  web-security-network:
+
+volumes:
+  sqldata:
+  security-reports:
