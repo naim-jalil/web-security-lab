@@ -2,19 +2,19 @@
 echo "Setting up Day 1: Introduction to Web Application Security and OWASP Top 10"
 
 # Reset environment completely
-docker-compose down
+docker compose down
 docker volume rm web-security-lab_sqldata || true
 docker volume rm web-security-lab_security-reports || true
 
 # Start with fresh setup
-docker-compose up -d db
+docker compose up -d db
 
-# Wait for database to be ready
-echo "Waiting for database to initialize..."
-sleep 15
+# Initialize the database using our script
+echo "Running database initialization script..."
+./init-database.sh
 
 # Start the web application with basic vulnerabilities
-docker-compose up -d web-security-lab
+docker compose up -d web-security-lab
 
 # Print access information
 echo "Day 1 environment is ready!"

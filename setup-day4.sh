@@ -2,21 +2,21 @@
 echo "Setting up Day 4: ASP.NET Security and Secure Communication"
 
 # Stop services but preserve volumes
-docker-compose down
+docker compose down
 
 # Start the database
-docker-compose up -d db
+docker compose up -d db
 
 # Wait for database to be ready
 echo "Waiting for database to initialize..."
 sleep 10
 
 # Start the web application
-docker-compose up -d web-security-lab
+docker compose up -d web-security-lab
 
 # Generate a self-signed certificate for HTTPS exercises
 echo "Generating self-signed certificate for HTTPS exercises..."
-docker exec -i web-security-lab_web-security-lab_1 openssl req -new -newkey rsa:2048 -days 365 -nodes -x509 \
+docker exec -i web-security-lab-web openssl req -new -newkey rsa:2048 -days 365 -nodes -x509 \
     -subj "/C=US/ST=State/L=City/O=Organization/CN=localhost" \
     -keyout /app/server.key -out /app/server.cert
 

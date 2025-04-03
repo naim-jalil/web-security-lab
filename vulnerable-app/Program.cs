@@ -5,56 +5,30 @@ using Microsoft.EntityFrameworkCore;
 using VulnerableApp.Data;
 using VulnerableApp.Services;
 using Microsoft.AspNetCore.Identity;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // VULNERABILITY: Configure insecure logging
+builder.WebHost.ConfigureKestrel(options =>
+{
+    // HTTP only, no HTTPS/SSL
+    options.ListenAnyIP(80);
+});
+
 builder.Logging.ClearProviders();
 builder.Logging.AddProvider(new InsecureLoggingServiceProvider());
 
 // Add services to the container
 builder.Services.AddControllersWithViews(); // Missing security features
 
-// Add the DataProtection configuration (intentionally insecure)
-builder.Services.AddDataProtection()
-    // Missing key storage configuration
-    // Missing key rotation policy
-    // Missing encryption at rest for keys
-    ;
-
-// Add the Identity configuration (intentionally weak)
-builder.Services.Configure<IdentityOptions>(options =>
-{
-    // Deliberately weak password settings
-    options.Password.RequireDigit = false;
-    options.Password.RequireLowercase = false;
-    options.Password.RequireUppercase = false;
-    options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequiredLength = 6;
-    
-    // No lockout configuration
-    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
-    options.Lockout.MaxFailedAccessAttempts = 100; // Too high
-});
-
-// VULNERABILITY: Insecure CORS policy configuration
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll", policy =>
-    {
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader()
-              .DisallowCredentials(); // Disabling credentials makes this particularly bad for security
-    });
-});
-
 // Add database context
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Configure custom authentication (intentionally weak)
-builder.Services.AddSingleton<IAuthService, InsecureAuthService>();
+// Configure IAuthService correctly using a scoped service
+// Fix: Use scoped service instead of singleton
+builder.Services.AddScoped<IAuthService, InsecureAuthService>();
 
 // Session configuration (insecure)
 builder.Services.AddSession(options =>
@@ -103,9 +77,9 @@ app.Use(async (context, next) =>
 
 app.UseSession(); // Insecure session
 
-// Authentication and authorization - intentionally in wrong order
-app.UseAuthorization(); // Should come after UseAuthentication
-// Missing app.UseAuthentication();
+// Authentication and authorization in correct order
+app.UseAuthentication(); // Added authentication middleware
+app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
