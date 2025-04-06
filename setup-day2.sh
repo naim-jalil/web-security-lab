@@ -2,17 +2,17 @@
 echo "Setting up Day 2: Input Validation and Preventing Injection Attacks"
 
 # Stop services but preserve volumes
-docker-compose down
+docker compose down
 
 # Start the database first
-docker-compose up -d db
+docker compose up -d db
 
 # Wait for database to be ready
 echo "Waiting for database to initialize..."
 sleep 10
 
 # Start the web application
-docker-compose up -d web-security-lab
+docker compose up -d web-security-lab
 
 # Setup specific SQL injection examples in the database
 docker exec -i web-security-lab_db_1 /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P P@ssw0rd! -d VulnerableApp -Q "

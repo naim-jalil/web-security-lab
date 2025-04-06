@@ -2,17 +2,17 @@
 echo "Setting up Day 5: Client-Side Security and Security Testing"
 
 # Stop services but preserve volumes
-docker-compose down
+docker compose down
 
 # Start the database
-docker-compose up -d db
+docker compose up -d db
 
 # Wait for database to be ready
 echo "Waiting for database to initialize..."
 sleep 10
 
 # Start the web application and security tools
-docker-compose up -d web-security-lab security-tools waf
+docker compose up -d web-security-lab security-tools waf
 
 # Inject XSS vulnerable content into the database
 docker exec -i web-security-lab_db_1 /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P P@ssw0rd! -d VulnerableApp -Q "

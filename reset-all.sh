@@ -2,7 +2,7 @@
 echo "Resetting all environments and volumes"
 
 # Stop all containers
-docker-compose down
+docker compose down
 
 # Remove all volumes
 docker volume rm web-security-lab_sqldata || true
