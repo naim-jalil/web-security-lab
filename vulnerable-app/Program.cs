@@ -6,6 +6,7 @@ using VulnerableApp.Data;
 using VulnerableApp.Services;
 using Microsoft.AspNetCore.Identity;
 using System;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,7 +57,11 @@ else
 
 // Missing security headers middleware
 
-app.UseStaticFiles(); // No content security policy
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider("/exercises"),
+    RequestPath = "/exercises"
+});// No content security policy
 
 app.UseRouting();
 

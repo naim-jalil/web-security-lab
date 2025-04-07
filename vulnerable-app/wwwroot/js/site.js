@@ -42,11 +42,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Set up calculator if it exists on the page
-    const calcButton = document.getElementById('calc-button');
-    if (calcButton) {
-        calcButton.addEventListener('click', calculateFromInput);
-    }
-
+    document.addEventListener('DOMContentLoaded', function() {
+        const calcButton = document.getElementById('calc-button');
+        if (calcButton) {
+            calcButton.addEventListener('click', calculateFromInput);
+        }
+    });
+    
     // Search form validation (insufficient)
     const searchForm = document.querySelector('form[action*="Products"]');
     if (searchForm) {
