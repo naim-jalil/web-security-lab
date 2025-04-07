@@ -23,11 +23,16 @@ namespace VulnerableApp.Controllers
 
         public IActionResult About()
         {
-            // VULNERABILITY: Reflected XSS
-            if (!string.IsNullOrEmpty(Request.Query["name"]))
+            // Get the name parameter from the query string
+            string name = Request.Query["name"].ToString();
+            
+            // Only set ViewBag.Name if the name is not empty
+            if (!string.IsNullOrEmpty(name))
             {
-                ViewBag.Name = Request.Query["name"]; // Unfiltered user input
+                // Convert to a simple string value before setting it
+                ViewBag.Name = name;
             }
+            
             return View();
         }
 

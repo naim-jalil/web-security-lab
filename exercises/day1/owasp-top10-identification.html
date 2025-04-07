@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OWASP Top 10 Identification Exercise</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; }
+        .vulnerability { margin-bottom: 20px; padding: 10px; border: 1px solid #ddd; }
+        .code { background-color: #f5f5f5; padding: 10px; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <h1>OWASP Top 10 Vulnerability Identification</h1>
+    
+    <p>Instructions: For each code snippet or scenario below, identify the OWASP Top 10 vulnerability category it represents.</p>
+    
+    <div class="vulnerability">
+        <h3>Example 1</h3>
+        <div class="code">
+            string query = "SELECT * FROM Users WHERE Username = '" + username + "' AND Password = '" + password + "'";
+            SqlCommand command = new SqlCommand(query, connection);
+            SqlDataReader reader = command.ExecuteReader();
+        </div>
+        <p>OWASP Category: _______________________</p>
+        <p>Explanation: _______________________</p>
+    </div>
+    
+    <div class="vulnerability">
+        <h3>Example 2</h3>
+        <div class="code">
+            &lt;div&gt;
+                Welcome, @Html.Raw(Request.Query["name"])!
+            &lt;/div&gt;
+        </div>
+        <p>OWASP Category: _______________________</p>
+        <p>Explanation: _______________________</p>
+    </div>
+    
+    <div class="vulnerability">
+        <h3>Example 3</h3>
+        <div class="code">
+            public IActionResult UserProfile(int id)
+            {
+                var user = _context.Users.Find(id);
+                return View(user);
+            }
+        </div>
+        <p>OWASP Category: _______________________</p>
+        <p>Explanation: _______________________</p>
+    </div>
+    
+    <div class="vulnerability">
+        <h3>Example 4</h3>
+        <div class="code">
+            [HttpPost]
+            public IActionResult ChangeEmail(string email)
+            {
+                // Update user's email
+                var userId = HttpContext.Session.GetInt32("UserId");
+                var user = _context.Users.Find(userId);
+                user.Email = email;
+                _context.SaveChanges();
+                return RedirectToAction("Profile");
+            }
+        </div>
+        <p>OWASP Category: _______________________</p>
+        <p>Explanation: _______________________</p>
+    </div>
+    
+    <div class="vulnerability">
+        <h3>Example 5</h3>
+        <div class="code">
+            var processInfo = new ProcessStartInfo("cmd.exe", "/c " + userInput)
+            {
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+            var process = Process.Start(processInfo);
+        </div>
+        <p>OWASP Category: _______________________</p>
+        <p>Explanation: _______________________</p>
+    </div>
+</body>
+</html>

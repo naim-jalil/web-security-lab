@@ -1,18 +1,16 @@
 @{
     ViewData["Title"] = "About Us";
+
+    var name = ViewBag.Name as string;
 }
 
 <h1>About Us</h1>
 
-@if (ViewBag.Name != null)
+@if (!string.IsNullOrEmpty(name))
 {
-    string nameValue = ViewBag.Name.ToString();
-    if (!string.IsNullOrEmpty(nameValue))
-    {
-        <div>
-            <h3>Welcome, @Html.Raw(nameValue)!</h3>
-        </div>
-    }
+    <div>
+        <h3>Welcome, @Html.Raw(name)!</h3>
+    </div>
 }
 
 <p>This is a sample vulnerable application for teaching web security.</p>
