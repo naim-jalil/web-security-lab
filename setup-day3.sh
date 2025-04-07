@@ -15,7 +15,7 @@ sleep 10
 docker compose up -d web-security-lab
 
 # Add users with weak passwords for authentication exercises
-docker exec -i web-security-lab-db /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "P@ssw0rd!" -C -Q "
+
 -- Add users with weak passwords
 IF NOT EXISTS (SELECT * FROM Users WHERE Username = 'weakuser')
 BEGIN
@@ -36,4 +36,5 @@ echo "Access the vulnerable web application at: http://localhost:8080"
 echo "Today's focus: Authentication vulnerabilities, session management, and authorization flaws"
 echo "Additional test accounts:"
 echo "  Weak password: weakuser / 123456"
+
 echo "  Manager (for privilege escalation): manager / manager2023"
