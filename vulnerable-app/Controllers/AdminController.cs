@@ -6,6 +6,7 @@ using System.Linq;
 using System;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace VulnerableApp.Controllers
 {     public class AdminController : Controller
@@ -60,18 +61,28 @@ namespace VulnerableApp.Controllers
             try
             {
                 // Execute the command directly
-                var processInfo = new ProcessStartInfo("/bin/bash", "-c \"" + command + "\"")
+                ProcessStartInfo processInfo;
+
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
-                    RedirectStandardError = true,
-                    RedirectStandardInput = true,
-                    RedirectStandardOutput = true,
-                    FileName = "/bin/bash",
-                    Arguments = "-c \"" + command + "\"",
+                    // For Windows
+                    processInfo = new ProcessStartInfo("cmd.exe", "/c " + command)
+                    {
+                        RedirectStandardOutput = true,
+                        UseShellExecute = false,
+                        CreateNoWindow = true
+                    };
+                }
+                else
                 {
-                    RedirectStandardOutput = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true
-                };
+                    // For Linux/macOS
+                    processInfo = new ProcessStartInfo("/bin/bash", "-c \"" + command + "\"")
+                    {
+                        RedirectStandardOutput = true,
+                        UseShellExecute = false,
+                        CreateNoWindow = true
+                    };
+                }
                 
                 var process = Process.Start(processInfo);
                 var output = process.StandardOutput.ReadToEnd();
