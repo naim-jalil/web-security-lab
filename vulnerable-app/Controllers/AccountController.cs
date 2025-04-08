@@ -4,6 +4,8 @@ using VulnerableApp.Models;
 using VulnerableApp.Services;
 using VulnerableApp.Data;
 using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace VulnerableApp.Controllers
 {
@@ -75,10 +77,18 @@ namespace VulnerableApp.Controllers
                 errors.Add("Password is required.");
             else if (password.Length < 6)
                 errors.Add("Password must be at least 6 characters long.");
+            else if (!Regex.IsMatch(password, @"[A-Z]"))
+                errors.Add("Password must contain at least one uppercase letter.");
+            else if (!Regex.IsMatch(password, @"[a-z]"))
+                errors.Add("Password must contain at least one lowercase letter.");
+            else if (!Regex.IsMatch(password, @"[0-9]"))
+                errors.Add("Password must contain at least one number.");
+            else if (!Regex.IsMatch(password, @"[\W_]"))
+                errors.Add("Password must contain at least one special character.");
 
             if (string.IsNullOrWhiteSpace(email))
                 errors.Add("Email is required.");
-            else if (!email.Contains("@") || !email.Contains("."))
+            else if (!Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
                 errors.Add("Invalid email format.");
 
             if (string.IsNullOrWhiteSpace(fullName))
