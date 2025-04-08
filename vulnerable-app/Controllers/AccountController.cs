@@ -65,6 +65,31 @@ namespace VulnerableApp.Controllers
         {
             // VULNERABILITY: No password complexity requirements
             // VULNERABILITY: No input validation/sanitization
+            var errors = new List<string>();
+
+            // Validation
+            if (string.IsNullOrWhiteSpace(username))
+                errors.Add("Username is required.");
+
+            if (string.IsNullOrWhiteSpace(password))
+                errors.Add("Password is required.");
+            else if (password.Length < 6)
+                errors.Add("Password must be at least 6 characters long.");
+
+            if (string.IsNullOrWhiteSpace(email))
+                errors.Add("Email is required.");
+            else if (!email.Contains("@") || !email.Contains("."))
+                errors.Add("Invalid email format.");
+
+            if (string.IsNullOrWhiteSpace(fullName))
+                errors.Add("Full name is required.");
+
+            // If any errors exist, send them to the view
+            if (errors.Count > 0)
+            {
+                ViewBag.Errors = errors;
+                return View();
+            }
             
             // VULNERABILITY: SQL Injection possible here with user input
             // (Implementation simplified for example)
