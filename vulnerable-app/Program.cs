@@ -57,6 +57,8 @@ else
 
 // Missing security headers middleware
 
+app.UseStaticFiles(); // Read CSS and JS from wwwroot
+
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider("/exercises"),
