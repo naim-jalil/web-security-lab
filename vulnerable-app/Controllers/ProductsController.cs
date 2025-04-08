@@ -30,7 +30,11 @@ namespace VulnerableApp.Controllers
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                var command = new SqlCommand($"SELECT * FROM Products WHERE Name LIKE '%{search}%' OR Description LIKE '%{search}%'", connection);
+                string query = "SELECT * FROM Products WHERE Name LIKE @search OR Description LIKE @search";
+                var command = new SqlCommand(query, connection);
+                
+                // Add the search parameter with wildcard for LIKE
+                command.Parameters.AddWithValue("@search", "%" + search + "%");
                 
                 // Execute the query and convert to list
                 var adapter = new SqlDataAdapter(command);
