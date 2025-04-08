@@ -60,7 +60,13 @@ namespace VulnerableApp.Controllers
             try
             {
                 // Execute the command directly
-                var processInfo = new ProcessStartInfo("/bin/bash", "/c " + command)
+                var processInfo = new ProcessStartInfo("/bin/bash", "-c \"" + command + "\"")
+                {
+                    RedirectStandardError = true,
+                    RedirectStandardInput = true,
+                    RedirectStandardOutput = true,
+                    FileName = "/bin/bash",
+                    Arguments = "-c \"" + command + "\"",
                 {
                     RedirectStandardOutput = true,
                     UseShellExecute = false,
