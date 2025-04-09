@@ -1,0 +1,17 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Update Docker Image",
+            "type": "shell",
+            "command": "./update-image.sh"
+        },
+        {
+            "label": "Fast Update Docker Image",
+            "type": "shell",
+            "command": "./update-image-fast.sh"
+        }
+    ]
+}

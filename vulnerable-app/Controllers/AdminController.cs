@@ -55,6 +55,22 @@ namespace VulnerableApp.Controllers
             // VULNERABILITY: Command Injection
             if (string.IsNullOrEmpty(command))
             {
+                ViewBag.Error = "Command cannot be empty";
+                return View();
+            }
+
+            string[] allowedCommands = { "ls", "dir", "whoami", "echo", "pwd" };
+            string firstCommand = command.Split(' ')[0];
+            if (!allowedCommands.Contains(firstCommand))
+            {
+                ViewBag.Error = "Command not allowed";
+                return View();
+            }
+
+            // Check if have multiple commands
+            if (command.Contains(";") || command.Contains("&") || command.Contains("|"))
+            {
+                ViewBag.Error = "Multiple commands not allowed";
                 return View();
             }
             
