@@ -9,14 +9,14 @@ docker compose up -d db
 
 # Wait for database to be ready
 echo "Waiting for database to initialize..."
-sleep 10
+sleep 30
 
 # Start the web application
 docker compose up -d web-security-lab
 
 # Add users with weak passwords for authentication exercises
-docker exec -i web-security-lab-db /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "P@ssw0rd!" -C -N -t 30 -b -e -i /docker-entrypoint-initdb.d/init.sql
-
+docker exec -i web-security-lab-db /opt/mssql-tools18/bin/sqlcmd -S web-security-lab-db -U sa -P "P@ssw0rd!" -C -N -t 30 -b -e -Q "
+USE VulnerableApp;
 -- Add users with weak passwords
 IF NOT EXISTS (SELECT * FROM Users WHERE Username = 'weakuser')
 BEGIN

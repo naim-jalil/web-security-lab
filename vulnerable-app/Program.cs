@@ -7,6 +7,9 @@ using VulnerableApp.Services;
 using Microsoft.AspNetCore.Identity;
 using System;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using VulnerableApp.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,16 +33,50 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Configure IAuthService correctly using a scoped service
 // Fix: Use scoped service instead of singleton
 builder.Services.AddScoped<IAuthService, InsecureAuthService>();
+builder.Services.AddScoped<IAuthorizationHandler, UserResourceAuthorizationHandler>();
 
 // Session configuration (insecure)
 builder.Services.AddSession(options =>
 {
     // No secure configuration
-    options.IdleTimeout = TimeSpan.FromHours(24); // Excessively long timeout
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Excessively long timeout
     // No cookie security settings
+    options.Cookie.HttpOnly = true; // Missing secure flag
+    options.Cookie.SameSite = SameSiteMode.Strict; // Missing SameSite protection
+    options.Cookie.IsEssential = true; // Always essential, no user consent
+    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest; // Always use secure cookies, even in development
+    options.Cookie.Name = "VulnAppSession"; // Insecure cookie name
 });
 
-// Missing CSRF protection configuration
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Account/Login"; // Missing redirect path
+        options.LogoutPath = "/Account/Logout"; // Missing redirect path
+        options.AccessDeniedPath = "/Account/AccessDenied"; // Missing redirect path
+        options.SlidingExpiration = true; // Sliding expiration enabled
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // Excessively long expiration time
+        options.Cookie.HttpOnly = true; // Missing secure flag
+        options.Cookie.SameSite = SameSiteMode.Strict; // Missing SameSite protection
+        options.Cookie.IsEssential = true; // Always essential, no user consent
+        options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest; // (HTTP in Dev, HTTPS in Prod, "Always" is use secure cookies, even in development
+    });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin")); // Missing role-based authorization
+    options.AddPolicy("RequireUserRole", policy => policy.RequireRole("User")); // Missing role-based authorization
+});
+
+// Add CSRF protection configuration
+builder.Services.AddAntiforgery(options =>
+{
+    options.HeaderName = "X-XSRF-TOKEN"; // Missing CSRF token header name
+    options.Cookie.HttpOnly = true; // Missing secure flag
+    options.Cookie.SameSite = SameSiteMode.Strict; // Missing SameSite protection
+    options.Cookie.IsEssential = true; // Always essential, no user consent
+    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest; // Always use secure cookies, even in development
+});
 
 var app = builder.Build();
 
@@ -74,11 +111,11 @@ app.UseCors("AllowAll");
 app.Use(async (context, next) =>
 {
     // Deliberately weak CSP that allows unsafe practices
-    context.Response.Headers.Add("Content-Security-Policy", 
+    context.Response.Headers.Add("Content-Security-Policy",
         "default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data:; " +
         "script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; " +
         "style-src 'self' 'unsafe-inline' https:;");
-    
+
     await next();
 });
 
