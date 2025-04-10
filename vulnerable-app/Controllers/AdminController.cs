@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace VulnerableApp.Controllers
 {
-    [Authorize(Roles = "RequiredAdminRole")]
     public class AdminController : Controller
     {
         private readonly ApplicationDbContext _context;
