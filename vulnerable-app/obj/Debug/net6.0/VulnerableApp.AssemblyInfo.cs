@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VulnerableApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6d12c6a42e3810ce6520502045e51d70b6d4a0cc")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+490f364b55bb103c8b764f371a03ffd12971e025")]
 [assembly: System.Reflection.AssemblyProductAttribute("VulnerableApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VulnerableApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

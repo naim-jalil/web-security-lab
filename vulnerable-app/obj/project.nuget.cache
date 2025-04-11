@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "wNyc9FnK1IButCwCNhL7LhpSmRub00j1JiuuK9Q5q9SxVADCBpYNOSwOv1jS+uNpcinMdX1AHTdgBkM8KgKdVw==",
+  "dgSpecHash": "Yf6iY8fLxXIWjQLBlSpLoeQJ1+ssCAwLjHd3gcKsuVaYqe+hdO6f5qmnFmkhvXZobCol6ixDeBz+E7257bdptw==",
   "success": true,
   "projectFilePath": "/home/student/naim/web-security-lab/vulnerable-app/VulnerableApp.csproj",
   "expectedPackageFiles": [

@@ -10,6 +10,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using VulnerableApp.Controllers;
+using System.Security.Cryptography.X509Certificates;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,12 @@ builder.WebHost.ConfigureKestrel(options =>
 {
     // HTTP only, no HTTPS/SSL
     options.ListenAnyIP(80);
+
+    options.ListenAnyIP(443, listenOptions =>
+    {
+        // Missing HTTPS configuration
+        listenOptions.UseHttps(new X509Certificate2("/app/certificates/server.pfx", "Password"));
+    });
 });
 
 builder.Logging.ClearProviders();
@@ -102,7 +109,13 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/exercises"
 });// No content security policy
 
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHsts(); // Missing HSTS configuration
+}
+
 app.UseRouting();
+app.UseHttpsRedirection(); // Missing HTTPS redirection
 
 // VULNERABILITY: Enabling overly permissive CORS
 app.UseCors("AllowAll");
@@ -115,6 +128,10 @@ app.Use(async (context, next) =>
         "default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data:; " +
         "script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; " +
         "style-src 'self' 'unsafe-inline' https:;");
+
+    context.Response.Headers.Add("X-Content-Type-Options", "nosniff"); // Missing X-Content-Type-Options header
+    context.Response.Headers.Add("X-Frame-Options", "DENY"); // Missing X-Frame-Options header
+    context.Response.Headers.Add("Referrer-Policy", "strict-origin-when-cross-origin"); // Missing Referrer-Policy header
 
     await next();
 });

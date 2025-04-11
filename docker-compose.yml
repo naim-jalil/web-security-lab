@@ -1,14 +1,16 @@
 services:
   web-security-lab:
     container_name: web-security-lab-web
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile
     ports:
       - "8080:80"
+      - "8443:443"
     volumes:
-      - ./exercises:/exercises:ro  # Read-only exercises
+      - ./exercises:/exercises:ro # Read-only exercises
       - ./student-work:/student-work
+      - ./certificates:/app/certificates
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
@@ -17,7 +19,7 @@ services:
       - db
     networks:
       - web-security-network
-  
+
   db:
     container_name: web-security-lab-db
     image: mcr.microsoft.com/mssql/server:2019-latest
@@ -30,7 +32,7 @@ services:
       - sqldata:/var/opt/mssql
       - ./vulnerable-app/database/init-scripts:/docker-entrypoint-initdb.d
     healthcheck:
-      test: ["CMD", "/opt/mssql-tools18/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "P@ssw0rd!", "-C", "-Q", "SELECT 1"]
+      test: [ "CMD", "/opt/mssql-tools18/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "P@ssw0rd!", "-C", "-Q", "SELECT 1" ]
       interval: 30s
       retries: 3
       timeout: 10s
@@ -44,7 +46,7 @@ services:
     volumes:
       - ./security-reports:/zap/wrk
     ports:
-      - "8090:8080"  # ZAP API and UI
+      - "8090:8080" # ZAP API and UI
     command: zap.sh -daemon -host 0.0.0.0 -port 8080 -config api.disablekey=true
     networks:
       - web-security-network
@@ -57,7 +59,7 @@ services:
     ports:
       - "8081:80"
     environment:
-      - PARANOIA=1  # Start with low paranoia level for demonstration
+      - PARANOIA=1 # Start with low paranoia level for demonstration
       - PROXY=1
       - BACKEND=http://web-security-lab
     networks:
@@ -67,6 +69,7 @@ services:
 
 networks:
   web-security-network:
+
 
 volumes:
   sqldata:
