@@ -1,13 +1,13 @@
 services:
   web-security-lab:
     container_name: web-security-lab-web
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile
     ports:
       - "8080:80"
     volumes:
-      - ./exercises:/exercises:ro  # Read-only exercises
+      - ./exercises:/exercises:ro # Read-only exercises
       - ./student-work:/student-work
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -17,7 +17,7 @@ services:
       - db
     networks:
       - web-security-network
-  
+
   db:
     container_name: web-security-lab-db
     image: mcr.microsoft.com/mssql/server:2019-latest
@@ -30,7 +30,7 @@ services:
       - sqldata:/var/opt/mssql
       - ./vulnerable-app/database/init-scripts:/docker-entrypoint-initdb.d
     healthcheck:
-      test: ["CMD", "/opt/mssql-tools18/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "P@ssw0rd!", "-C", "-Q", "SELECT 1"]
+      test: [ "CMD", "/opt/mssql-tools18/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "P@ssw0rd!", "-C", "-Q", "SELECT 1" ]
       interval: 30s
       retries: 3
       timeout: 10s
@@ -40,24 +40,36 @@ services:
 
   # Security testing tools for Day 5
   security-tools:
+    container_name: web-security-lab-security-tools
     image: ghcr.io/zaproxy/zaproxy:stable
     volumes:
       - ./security-reports:/zap/wrk
     ports:
-      - "8090:8080"  # ZAP API and UI
-    command: zap.sh -daemon -host 0.0.0.0 -port 8080 -config api.disablekey=true
+      - "8090:8090" # ZAP API and UI
+    command: zap.sh -daemon -port 8090 -host 0.0.0.0 -config api.disablekey=true -config api.addrs.addr.regex=true -config 'api.addrs.addr.name=.*'
     networks:
       - web-security-network
     depends_on:
       - web-security-lab
 
+  security-tools-ui:
+    container_name: web-security-lab-zap-ui
+    image: ghcr.io/zaproxy/zaproxy:stable
+    command: zap-webswing.sh
+    ports:
+      - "8083:8080" # UI
+      - "8091:8090" # API
+    networks:
+      - web-security-network
+
   # Web Application Firewall for Day 5
   waf:
+    container_name: web-security-lab-waf
     image: owasp/modsecurity-crs:4.12.0-nginx-alpine-202503230103
     ports:
-      - "8081:80"
+      - "8081:8080"
     environment:
-      - PARANOIA=1  # Start with low paranoia level for demonstration
+      - PARANOIA=1 # Start with low paranoia level for demonstration
       - PROXY=1
       - BACKEND=http://web-security-lab
     networks:
@@ -67,6 +79,7 @@ services:
 
 networks:
   web-security-network:
+
 
 volumes:
   sqldata:

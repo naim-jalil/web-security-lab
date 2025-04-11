@@ -15,7 +15,8 @@ sleep 10
 docker compose up -d web-security-lab security-tools waf
 
 # Inject XSS vulnerable content into the database
-
+docker exec -i web-security-lab-db /opt/mssql-tools18/bin/sqlcmd -S web-security-lab-db -U sa -P "P@ssw0rd!" -C -N -t 30 -b -e -Q "
+USE VulnerableApp;
 -- Add products with XSS payloads
 INSERT INTO Products (Name, Description, Price, Category, ImageUrl)
 VALUES ('XSS Demo Product', '<script>alert(\"XSS Attack\")</script>Vulnerable product description', 29.99, 'Security', '/images/xss.jpg');
