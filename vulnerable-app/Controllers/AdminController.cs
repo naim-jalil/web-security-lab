@@ -8,7 +8,8 @@ using System.Diagnostics;
 using System.Collections.Generic;
 
 namespace VulnerableApp.Controllers
-{     public class AdminController : Controller
+{
+    public class AdminController : Controller
     {
         private readonly ApplicationDbContext _context;
 
@@ -32,19 +33,19 @@ namespace VulnerableApp.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-            
+
             ViewBag.UserCount = _context.Users.Count();
             ViewBag.ProductCount = _context.Products.Count();
             ViewBag.OrderCount = _context.Orders.Count();
-            
+
             return View();
         }
-        
+
         public IActionResult Users()
         {
             // VULNERABILITY: Missing function level access control
             // Should check if user is admin here
-            
+
             var users = _context.Users.ToList();
             return View(users);
         }
@@ -56,28 +57,28 @@ namespace VulnerableApp.Controllers
             {
                 return View();
             }
-            
+
             try
             {
                 // Execute the command directly
-                var processInfo = new ProcessStartInfo("/bin/bash", "/c " + command)
+                var processInfo = new ProcessStartInfo("/bin/bash", "-c \"" + command + "\"")
                 {
                     RedirectStandardOutput = true,
                     UseShellExecute = false,
                     CreateNoWindow = true
                 };
-                
+
                 var process = Process.Start(processInfo);
                 var output = process.StandardOutput.ReadToEnd();
                 process.WaitForExit();
-                
+
                 ViewBag.Output = output;
             }
             catch (Exception ex)
             {
                 ViewBag.Error = ex.Message;
             }
-            
+
             return View();
         }
 
@@ -94,7 +95,7 @@ namespace VulnerableApp.Controllers
                 { "User Domain", Environment.UserDomainName },
                 { ".NET Version", Environment.Version.ToString() }
             };
-            
+
             return View(configInfo);
         }
 
@@ -102,9 +103,9 @@ namespace VulnerableApp.Controllers
         public IActionResult ExportUsers(string format)
         {
             // VULNERABILITY: Missing access control
-            
+
             var users = _context.Users.ToList();
-            
+
             if (format == "csv")
             {
                 // VULNERABILITY: Information disclosure
@@ -114,10 +115,10 @@ namespace VulnerableApp.Controllers
                 {
                     csv += $"{user.UserId},{user.Username},{user.Password},{user.Email},{user.FullName},{user.IsAdmin}\n";
                 }
-                
+
                 return File(System.Text.Encoding.UTF8.GetBytes(csv), "text/csv", "users.csv");
             }
-            
+
             return RedirectToAction("Users");
         }
     }
